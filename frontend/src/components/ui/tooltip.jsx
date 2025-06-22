@@ -1,86 +1,60 @@
-// "use client"
-
-// import * as React from "react"
-// import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-
-// import { cn } from "../../lib/utils"
-
-// export function TooltipProvider({
-//   delayDuration = 0,
-//   ...props
-// }) {
-//   return (
-//     <TooltipPrimitive.Provider
-//       data-slot="tooltip-provider"
-//       delayDuration={delayDuration}
-//       {...props}
-//     />
-//   )
-// }
-
-// export function Tooltip({
-//   ...props
-// }) {
-//   return (
-//     <TooltipProvider>
-//       <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-//     </TooltipProvider>
-//   );
-// }
-
-// export function TooltipTrigger({
-//   ...props
-// }) {
-//   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
-// }
-
-// export function TooltipContent({
-//   className,
-//   sideOffset = 0,
-//   children,
-//   ...props
-// }) {
-//   return (
-//     <TooltipPrimitive.Portal>
-//       <TooltipPrimitive.Content
-//         data-slot="tooltip-content"
-//         sideOffset={sideOffset}
-//         className={cn(
-//           "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance",
-//           className
-//         )}
-//         {...props}
-//       >
-//         {children}
-//         <TooltipPrimitive.Arrow className="bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]" />
-//       </TooltipPrimitive.Content>
-//     </TooltipPrimitive.Portal>
-//   )
-// }
-
-// // export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
-
 "use client"
 
 import * as React from "react"
-import * as TooltipPrimitive from '@radix-ui/react-tooltip'
-import "../../index.css"
+import { Tooltip as TooltipPrimitive } from 'radix-ui';
 
-function TestTooltip() {
+import { cn } from "../../lib/utils"
+
+export function TooltipProvider({
+  delayDuration = 0,
+  ...props
+}) {
   return (
-    <TooltipPrimitive.Provider>
-      <TooltipPrimitive.Root>
-        <TooltipPrimitive.Trigger asChild>
-          <button>Hover me</button>
-        </TooltipPrimitive.Trigger>
-        <TooltipPrimitive.Portal>
-          <TooltipPrimitive.Content side="right">
-            Tooltip content
-          </TooltipPrimitive.Content>
-        </TooltipPrimitive.Portal>
-      </TooltipPrimitive.Root>
-    </TooltipPrimitive.Provider>
+    <TooltipPrimitive.Provider
+      data-slot="tooltip-provider"
+      delayDuration={delayDuration}
+      {...props}
+    />
   )
 }
 
-export { TestTooltip };
+export function Tooltip({
+  ...props
+}) {
+  return (
+    <TooltipProvider>
+      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+    </TooltipProvider>
+  );
+}
+
+export function TooltipTrigger({
+  ...props
+}) {
+  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+}
+
+export function TooltipContent({
+  className,
+  sideOffset = 0,
+  children,
+  ...props
+}) {
+  return (
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        data-slot="tooltip-content"
+        sideOffset={sideOffset}
+        side="right"
+        className={cn(
+          "animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 animate-tooltip-in data-[state=closed]:animate-tooltip-out",
+          "bg-foreground text-black/90  data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-sm px-2 py-1.5 text-xs text-balance",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </TooltipPrimitive.Content>
+    </TooltipPrimitive.Portal>
+  )
+}

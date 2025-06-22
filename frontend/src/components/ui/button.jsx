@@ -13,6 +13,15 @@ import { IconCurrencyDollar } from '@tabler/icons-react';
 //   children: React.ReactNode
 // }
 
+export const Ping = ({...props}) => {
+  return (
+    <span class="absolute flex size-2 -top-[1.5px] -right-[1.5px]">
+      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+      <span class="relative inline-flex size-2 rounded-full bg-sky-500"></span>
+    </span>
+  )
+}
+
 
 export const Button = React.forwardRef(
   ({

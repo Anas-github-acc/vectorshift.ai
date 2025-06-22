@@ -7,19 +7,21 @@ import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { useShallow } from 'zustand/react/shallow';
 import { InputNode } from './nodes/inputNode';
-import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
-import { TextNode } from './nodes/textNode';
+import { SemanticSearchNode } from './nodes/semanticSearchNode';
+import { GoogleSearchNode } from './nodes/googleSearchNode';
+import { OpenAINode } from './nodes/openaiNode';
 
 import 'reactflow/dist/style.css';
 
-const gridSize = 20;
+const gridSize = 17;
 const proOptions = { hideAttribution: true };
 const nodeTypes = {
-  customInput: InputNode,
-  llm: LLMNode,
-  customOutput: OutputNode,
-  text: TextNode,
+  input: InputNode,
+  output: OutputNode,
+  'semantic-search': SemanticSearchNode,
+  'google-search': GoogleSearchNode,
+  openai: OpenAINode,
 };
 
 const selector = (state) => ({
@@ -95,7 +97,7 @@ export const PipelineUI = () => {
 
     return (
         <>
-        <div ref={reactFlowWrapper} className='relative  w-[100%] border-1 border-border-1 mr-3 mb-3 rounded-[10px]'>
+        <div ref={reactFlowWrapper} className='relative w-[100%] bg-background border-1 border-border-1 mr-3 mb-3 rounded-[10px] overflow-hidden'>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -110,9 +112,9 @@ export const PipelineUI = () => {
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
             >
-                <Background color="#aaa" gap={gridSize} />
-                <Controls />
-                <MiniMap />
+                <Background className='stroke-grid' size={2} gap={gridSize} />
+                <Controls className='' position='right-0 bottom-10' />
+                {/* <MiniMap className='bg-background! rounded-[12px] text-background/80!'/> */}
             </ReactFlow>
         </div>
         </>

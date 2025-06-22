@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@radix-ui/colors": "latest",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tabler/icons-react": "^3.34.0",
     "@tailwindcss/postcss": "^4.1.10",
@@ -10,7 +12,9 @@
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.522.0",
     "motion": "^12.18.1",
+    "radix-ui": "^1.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-scripts": "^5.0.1",
@@ -28,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.12.1",
   "eslintConfig": {
     "extends": [
       "react-app",

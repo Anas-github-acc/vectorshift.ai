@@ -3,11 +3,6 @@ import { cn } from "../../lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "./tooltip"
  
 // interface Links {
 //   label: string;
@@ -32,12 +27,13 @@ export const useSidebar = () => {
   }
   return context;
 };
- 
+
 export const SidebarProvider = ({
   children,
   open: openProp,
   setOpen: setOpenProp,
   animate = true,
+  tabContent = null,
 }) => {
   const [openState, setOpenState] = useState(false);
  
@@ -45,7 +41,7 @@ export const SidebarProvider = ({
   const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState;
  
   return (
-    <SidebarContext.Provider value={{ open, setOpen, animate: animate }}>
+    <SidebarContext.Provider value={{ open, setOpen, animate: animate, tabContent: tabContent }}>
       {children}
     </SidebarContext.Provider>
   );
@@ -56,9 +52,10 @@ export const Sidebar = ({
   open,
   setOpen,
   animate,
+  tabContent = null,
 }) => {
   return (
-    <SidebarProvider open={open} setOpen={setOpen} animate={animate}>
+    <SidebarProvider open={open} setOpen={setOpen} animate={animate} tabContent={tabContent}>
       {children}
     </SidebarProvider>
   );
@@ -67,8 +64,8 @@ export const Sidebar = ({
 export const SidebarBody = (props) => {
   return (
     <>
-        <DesktopSidebar {...props} />
-        <MobileSidebar {...(props)} />
+      <DesktopSidebar {...props} />
+      <MobileSidebar {...(props)} />
     </>
   );
 };
@@ -78,24 +75,27 @@ export const DesktopSidebar = ({
   children,
   ...props
 }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate, tabContent } = useSidebar();
 
   return (
     <>
       <motion.div
         layout
         className={cn(
-          "h-full px-2 hidden md:flex md:flex-col bg-transparent w-[60px] shrink-0",
+          "h-full px-2 hidden md:flex md:flex-row bg-transparent w-[60px]",
           className
         )}
         animate={{
-          width: animate ? (open ? "280px" : "60px") : "280px",
+          width: animate ? (open ? "450px" : "60px") : "450px",
         }}
-        // onMouseEnter={() => setOpen(true)}
-        // onMouseLeave={() => setOpen(false)}
         {...props}
       >
         {children}
+        
+        { tabContent && (
+          <div className="relative flex flex-col ml-4 mb-3 w-full overflow-auto bg-background-2 border-1 border-border-1 rounded-[10px]">
+          {tabContent}
+        </div>)}
       </motion.div>
     </>
   );
@@ -160,11 +160,12 @@ export const SidebarTabs = ({
   return (
     <span
     className={cn(
-        "h-10 w-10 flex items-center justify-center group/sidebar rounded-md cursor-pointer hover:bg-hover focus:bg-hover/80 p-[12px] text-foreground/80",
+        "h-10 w-10 flex items-center justify-center group/sidebar rounded-md cursor-pointer! hover:bg-hover focus:bg-hover/80 p-[12px] text-icon",
         className
       )}
       {...props}
       >
+        {tabs.icon}
     </span>
   );
 };

@@ -1,4 +1,6 @@
 // draggableNode.js
+import React from 'react';
+import { cn } from './lib/utils';
 
 export const DraggableNode = ({ type, label }) => {
     const onDragStart = (event, nodeType) => {
@@ -10,23 +12,12 @@ export const DraggableNode = ({ type, label }) => {
   
     return (
       <div
-        className={type}
+        className={cn(type, "text-[12px] cursor-grab min-w-[80px] h-[30px] px-3 py-3 flex items-start justify-center flex-col rounded-md bg-hover-2/50 border-1 border-border-2/80 hover:border-border-2/90  hover:bg-hover-2 active:bg-hover/60 transition-colors")}
         onDragStart={(event) => onDragStart(event, type)}
         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
-        style={{ 
-          cursor: 'grab', 
-          minWidth: '80px', 
-          height: '60px',
-          display: 'flex', 
-          alignItems: 'center', 
-          borderRadius: '8px',
-          backgroundColor: '#000000',
-          justifyContent: 'center', 
-          flexDirection: 'column'
-        }} 
         draggable
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+          <span className='text-foreground/50'>{label}</span>
       </div>
     );
   };
