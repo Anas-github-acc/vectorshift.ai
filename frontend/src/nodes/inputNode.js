@@ -1,15 +1,8 @@
 // inputNode.js
-import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
-import {
-  Node,
-  NodeAction,
-  NodeContent,
-  NodeDescription,
-  NodeFooter,
-  NodeHeader,
-  NodeTitle,
-} from "../components/ui/node"
+import * as React from 'react';
+import { Handle, Position } from '@xyflow/react';
+import { BaseNode } from '../components/ui/baseNode';
+import {Input } from '../components/ui/input';
 import {
   Select,
   SelectContent,
@@ -18,53 +11,49 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select"
+} from "../components/ui/select"  
 
+export const InputBox = () => {
+  return (
+    <div>
+      <label>
+        Input:
+        <input type="text" />
+      </label>
+    </div>
+  )
+}
 
-export const InputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
-  const [inputType, setInputType] = useState(data.inputType || 'Text');
-
-  const handleNameChange = (e) => {
-    setCurrName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setInputType(e.target.value);
-  };
+export const InputNode = ({ id, data, isConnectable }) => {
+  const [input, setInput] = React.useState([
+    // {
+    //   var: data?.inputName || id.replace('-', '_'),
+    //   type: data.inputType || 'Text',
+    //   value: ''
+    // },
+    // {
+    //   var: data?.inputName || id.replace('-', '_'),
+    //   type: data.inputType || 'Text',
+    //   value: ''
+    // }
+  ]);
 
   return (
-    <Node>
-      <div>
-        <span>Input</span>
-      </div>
-      <div>
-        <label>
-          Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
-        </label>
-        <label>
-          Type:
-          <select value={inputType} onChange={handleTypeChange}>
-            <option value="Text">Text</option>
-            <option value="File">File</option>
-          </select>
-        </label>
-
-        <SelectElement />
-
-      </div>
-
+    <BaseNode
+      title={data?.title || 'Input Node'}
+      addNodeTitle="Add Input"
+    >
+      {input.map((inputItem, index) => (
+        <Input key={index} variant='tab' className='w-full border-2' />
+      ))}
       <Handle
         type="source"
         position={Position.Right}
         id={`${id}-value`}
+        style={{ right: -10 }}
+        isConnectable={isConnectable}
       />
-    </Node>
+    </BaseNode>
   );
 }
 

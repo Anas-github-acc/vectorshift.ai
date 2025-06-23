@@ -1,122 +1,135 @@
 // ui.js
 // Displays the drag-and-drop UI
 // --------------------------------------------------
-
-import { useState, useRef, useCallback } from 'react';
-import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
-import { useStore } from './store';
-import { useShallow } from 'zustand/react/shallow';
+import React, { useRef, useCallback } from 'react';
+import {
+  ReactFlow,
+  ReactFlowProvider,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+  Controls,
+  Background,
+  useReactFlow,
+  ConnectionMode,
+  MiniMap,
+} from '@xyflow/react';
 import { InputNode } from './nodes/inputNode';
 import { OutputNode } from './nodes/outputNode';
 import { SemanticSearchNode } from './nodes/semanticSearchNode';
 import { GoogleSearchNode } from './nodes/googleSearchNode';
 import { OpenAINode } from './nodes/openaiNode';
 
-import 'reactflow/dist/style.css';
+import '@xyflow/react/dist/style.css';
+
+import ConnectionLine from './nodes/utils/connectionLine';
+import DeleteEdge from './nodes/utils/deleteEdge';
+import SelfConnectingEdge from './nodes/utils/SelfConnectingEdge';
+
+let id = 0;
+const getId = (type) => `${type}-${id++}`;
 
 const gridSize = 17;
 const proOptions = { hideAttribution: true };
 const nodeTypes = {
-  input: InputNode,
-  output: OutputNode,
+  'custom-input': InputNode,
+  'custom-output': OutputNode,
   'semantic-search': SemanticSearchNode,
   'google-search': GoogleSearchNode,
-  openai: OpenAINode,
+  'openai': OpenAINode,
 };
+const edgeTypes = {
+  'self-connecting': SelfConnectingEdge,
+  'delete-edge': DeleteEdge,
+}
 
-const selector = (state) => ({
-  nodes: state.nodes,
-  edges: state.edges,
-  getNodeID: state.getNodeID,
-  addNode: state.addNode,
-  onNodesChange: state.onNodesChange,
-  onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
-});
-
-export const PipelineUI = () => {
+export const UI = () => {
     const reactFlowWrapper = useRef(null);
-    const [reactFlowInstance, setReactFlowInstance] = useState(null);
-    const {
-      nodes,
-      edges,
-      getNodeID,
-      addNode,
-      onNodesChange,
-      onEdgesChange,
-      onConnect
-    } = useStore(useShallow(selector));
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const { screenToFlowPosition } = useReactFlow();
+
+    const onConnect = useCallback(
+      (params) => setEdges((eds) => addEdge({...params, type: 'delete-edge'}, eds)),
+      [setEdges],
+    );
 
     const getInitNodeData = (nodeID, type) => {
       let nodeData = { id: nodeID, nodeType: `${type}` };
       return nodeData;
     }
-
-    const onDrop = useCallback(
-        (event) => {
-          event.preventDefault();
     
-          const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-          if (event?.dataTransfer?.getData('application/reactflow')) {
-            const appData = JSON.parse(event.dataTransfer.getData('application/reactflow'));
-            const type = appData?.nodeType;
-      
-            // check if the dropped element is valid
-            if (typeof type === 'undefined' || !type) {
-              return;
-            }
-
-            // check here to ensure reactFlowInstance is not null
-            if (!reactFlowInstance) {
-              return;
-            }
-      
-            const position = reactFlowInstance.project({
-              x: event.clientX - reactFlowBounds.left,
-              y: event.clientY - reactFlowBounds.top,
-            });
-
-            const nodeID = getNodeID(type);
-            const newNode = {
-              id: nodeID,
-              type,
-              position,
-              data: getInitNodeData(nodeID, type),
-            };
-      
-            addNode(newNode);
-          }
-        },
-        [reactFlowInstance, addNode, getNodeID]
-    );
-
     const onDragOver = useCallback((event) => {
         event.preventDefault();
         event.dataTransfer.dropEffect = 'move';
     }, []);
 
+    const onDrop = useCallback(
+      (event) => {
+        event.preventDefault();
+        
+        if (event?.dataTransfer?.getData('application/reactflow')) {
+          const appData = JSON.parse(event.dataTransfer.getData('application/reactflow'));
+          const type = appData?.nodeType;
+
+          if (typeof type === 'undefined' || !type) {
+            return;
+          }
+    
+          const position = screenToFlowPosition({
+            x: event.clientX,
+            y: event.clientY,
+          });
+        
+          const nodeID = getId(type)
+
+          const newNode = {
+            id: nodeID,
+            type,
+            position,
+            data: getInitNodeData(nodeID, type),
+          };
+
+          setNodes((nds) => nds.concat(newNode));
+        }
+      },
+      [screenToFlowPosition],
+    );
+
     return (
-        <>
-        <div ref={reactFlowWrapper} className='relative w-[100%] bg-background border-1 border-border-1 mr-3 mb-3 rounded-[10px] overflow-hidden'>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
-                onInit={setReactFlowInstance}
-                nodeTypes={nodeTypes}
-                proOptions={proOptions}
-                snapGrid={[gridSize, gridSize]}
-                connectionLineType='smoothstep'
-            >
-                <Background className='stroke-grid' size={2} gap={gridSize} />
-                <Controls className='' position='right-0 bottom-10' />
-                {/* <MiniMap className='bg-background! rounded-[12px] text-background/80!'/> */}
-            </ReactFlow>
-        </div>
-        </>
+      <div ref={reactFlowWrapper} className='relative w-[100%] bg-background border-1 border-border-1 mr-3 mb-3 rounded-[10px] overflow-hidden'>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          proOptions={proOptions}
+          connectionMode={ConnectionMode.Loose}
+          connectionLineComponent={ConnectionLine}
+        >
+        {/* 
+          <div className='absolute top-30 left-30 z-10 p-2'>
+            <InputNode id="1" data={{
+                inputName: 'Input 1',
+                inputType: 'Text'
+            }}/>
+          </div> */}
+
+            <Background className='stroke-grid' size={2} gridSize={gridSize} />
+            <Controls position='right-0 bottom-10' />
+            {/* <MiniMap className='bg-background! rounded-[12px] text-background/80!'/> */}
+        </ReactFlow>
+      </div>
     )
 }
+
+export const PipelineUI = () => (
+  <ReactFlowProvider>
+    <UI />
+  </ReactFlowProvider>
+);

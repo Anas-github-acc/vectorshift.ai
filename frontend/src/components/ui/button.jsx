@@ -2,10 +2,6 @@
 import React from "react";
 import { cn } from "../../lib/utils";
 
-import { IconPlayerPlay } from '@tabler/icons-react';
-import { IconShare } from '@tabler/icons-react';
-import { IconCurrencyDollar } from '@tabler/icons-react';
-
 // interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 //   variant?: "primary" | "secondary" | "outline" | "destructive" | "ghost" | "link"
 //   icon?: "share" | "play"
@@ -41,15 +37,10 @@ export const Button = React.forwardRef(
       blue: "bg-[#0076ff]/25 text-[#70b8ff] hover:bg-[#0076ff]/35 active:bg-[#0076ff]/20",
       green: "bg-[#3ECF7F]/25 text-[#85E0AB] hover:bg-[#3ECF7F]/35 active:bg-[#3ECF7F]/20",
       outline: "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100",
+      dashed: "border-transparent font-normal border-dashed hover:border-blue-3 hover:text-blue-3 bg-transparent text-foreground rounded-[6px] active:border-blue-3/60 active:text-blue-3/60",
       destructive: "bg-red-600 text-white hover:bg-red-700 active:bg-red-800",
       ghost: "text-gray-700 hover:bg-gray-100 active:bg-gray-200",
       link: "text-blue-600 underline-offset-4 hover:underline active:text-blue-800",
-    }
-
-    const icons = {
-      share: <IconShare className="w-4 h-4" />,
-      play: <IconPlayerPlay className="w-4 h-4" />,
-      dollar: <IconCurrencyDollar className="w-4 h-4" />,
     }
 
     const sizes = {
@@ -60,11 +51,11 @@ export const Button = React.forwardRef(
 
     return (
       <button className={cn(baseStyles, variants[variant], sizes[size], className)} ref={ref} {...props}>
-        {icon && icon_position_initial && icons[icon]}
+        {icon && icon_position_initial && icon}
         <p className='pt-[1px]'>
           {children}
         </p>
-        {icon && !icon_position_initial && icons[icon]}
+        {icon && !icon_position_initial && icon}
       </button>
     )
   },

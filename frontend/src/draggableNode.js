@@ -3,6 +3,7 @@ import React from 'react';
 import { cn } from './lib/utils';
 
 export const DraggableNode = ({ type, label }) => {
+    
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType }
       event.target.style.cursor = 'grabbing';

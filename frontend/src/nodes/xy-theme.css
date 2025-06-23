@@ -1,0 +1,94 @@
+/* xyflow theme files. Delete these to start from our base */
+ 
+.react-flow {
+  /* Custom Variables */
+  --handle-background: #4e4e4e;
+  --handle-border: #858585;
+}
+ 
+.react-flow__edge.selectable:hover .react-flow__edge-path,
+.react-flow__edge.selectable.selected .react-flow__edge-path {
+  stroke: var(--color-blue-2) !important;
+  stroke-width: 2px;
+}
+
+.react-flow .react-flow__handle {
+  background-color: var(--handle-background);
+  border: none;
+  width: 10px;
+  height: 10px;
+}
+
+.react-flow .react-flow__handle:hover {
+  background-color: var(--color-blue-900);
+  outline: 1px solid var(--color-blue-2);
+}
+
+.react-flow__handle.connectionindicator:hover {
+  pointer-events: all;
+  border-color: var(--color-blue-2);
+}
+
+
+.react-flow__handle.connectionindicator:focus,
+.react-flow__handle.connectingfrom,
+.react-flow__handle.connectingto {
+  border-color: var(--color-red-700);
+}
+
+
+/*  edge delete */
+
+.button-edge__label {
+  display: none;
+  position: absolute;
+  pointer-events: all;
+  transform-origin: center;
+}
+
+.button-edge__label:hover {
+  display: block;
+}
+ 
+
+.react-flow__viewport:has(.react-flow__edge.selectable:hover) .button-edge__label{
+  display: block;
+}
+
+.react-flow__viewport:has(.react-flow__edge.selectable:hover) .button-edge__button{
+  color: var(--color-blue-2);
+}
+
+.react-flow .edge {
+  stroke: var(--color-amber-700) !important;
+}
+
+
+.react-flow__viewport:has(.button-edge__button:hover) .react-flow__edge.selectable .edge {
+  stroke: var(--color-red-700) !important;
+  stroke-width: 2px;
+}
+
+.button-edge__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  border-radius: 50%;
+  padding: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+ 
+.button-edge__button:hover {
+  border: 2px solid var(--color-red-700);
+  padding: 0;
+  background-color: var(--color-background);
+  color: var(--color-red-500);
+}
+
+.button-edge__button:active {
+  transform: scale(0.9);
+  background-color: var(--color-red-500);
+  color: var(--color-background);
+}

@@ -1,7 +1,8 @@
 @import "tailwindcss";
- 
+
 @custom-variant dark (&:is(.dark *));
 
+@import url('./nodes/xy-theme.css');
 
 :root {
   /* gray variant */
@@ -9,20 +10,27 @@
   --gray-2: #191919;
   --gray-4: #2a2a2a;
   --gray-5: #3a3a3a;
+  --gray-6: #3a3a3a;
   --gray-7: #484848;
   --gray-11: #3d3d3d;
   --gray-12: oklch(36.768% 0.00004 271.152 / 0.596);
   --gray-13: oklch(44.953% 0.00005 271.152 / 0.993);
   --gray-14: oklch(51.73% 0.00006 271.152 / 0.342);
+  --gray-a2: #ffffff09;
+  --gray-a5: #ffffff22;
+  --gray-n1: #212121b3;
   /* white variant */
   --white-1: oklch(0.9095 0 0);
   --white-2: oklch(84.522% 0.0001 271.152);
   --white-3: oklch(42.024% 0.00005 271.152);
+  --white-4: oklch(55.897% 0.00006 271.152);
   /* blue */
   --blue-1: #1e75f8;
   --blue-2: #1e75f8;
+  --blue-3: #70b8ff;
   /* font */
   --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI (Custom)", Roboto, "Helvetica Neue", "Open Sans (Custom)", system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-family-intel: Inter;
 }
 
 .dark {
@@ -33,9 +41,19 @@
   --color-background: var(--gray-1);
   --color-background-2: var(--gray-2);
   --color-foreground: var(--white-1);
+  --color-foreground-2: var(--white-4);
   /* border */
   --color-border-1: var(--gray-12);
   --color-border-2: var(--gray-13);
+  /* tabs */
+  --color-tabs: var(--gray-a2);
+  --color-tabs-hover: var(--gray-a5);
+  /* input */
+  --color-input: var(--gray-n1);
+  --color-input-border: var(--gray-5);
+  /* node */
+  --color-node: var(--gray-n1);
+  --color-node-border: var(--gray-6);
   /* other */
   --color-grid: var(--gray-4);
   --color-link: var(--gray-5);
@@ -47,8 +65,10 @@
   /* blue variant */
   --color-blue-1: var(--blue-1);
   --color-blue-2: var(--blue-2);
+  --color-blue-3: var(--blue-3);
   /* font family */
   --font-family: var(--default-font-family);
+  --font-family-node: var(--font-family-intel);
   /* animation */
   --animate-tooltip-in: zoom-in-bottom-left 0.1s ease-in-out;
   --animate-tooltip-out: zoom-out-bottom-left 0.1s ease-in-out;
@@ -58,6 +78,7 @@
   body {
     @apply bg-background text-foreground font-family;
     margin: 0;
+    letter-spacing: 0.3px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Courier New', Courier, monospace, sans-serif;

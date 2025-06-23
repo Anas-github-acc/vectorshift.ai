@@ -10,9 +10,9 @@ import {
 export const PipelineToolbar = () => {
     const nodes = {
         start: [
-            { type: 'input', label: 'Input' },
-            { type: 'output', label: 'Output' },
-            {type: 'text', label: 'Text'},
+            { type: 'custom-input', label: 'Input' },
+            { type: 'custom-output', label: 'Output' },
+            { type: 'text', label: 'Text'},
         ],
         ai: [
             { type: 'openai', label: 'OpenAI' },
@@ -25,9 +25,9 @@ export const PipelineToolbar = () => {
 
     return (
         <div className='px-3 py-3 flex flex-col gap-3 bg-background-2 border-r border-border-2/80 h-full shrink-0'>
-            <div className='flex flex-row gap-2 items-center'>
+            <div className='flex flex-row gap-2 items-center mb-6'>
                 <Input
-                    className='flex-1 bg-black/50'
+                    className='flex-1 bg-black/30'
                     variant='search'
                     placeholder='Search nodes...'
                     icon='search'

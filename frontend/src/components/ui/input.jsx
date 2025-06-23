@@ -4,8 +4,9 @@ import { cn } from "../../lib/utils"
 
 function Input({ className, className_2, type, variant, icon, ...props }) {
   const variants = {
-    "text": "",
-    "search": "text-foreground border-border-2/80 bg-background/80 outline-2 outline-transparent focus-within:border-transparent focus-within:outline-2 focus-within:outline-blue-1/80 transition-[outline-color] duration-200 ease-in-out",
+    text: "",
+    tab: "border-foreground-1 font-normal hover:border-foreground-1 hover:text-blue-3 bg-transparent text-foreground rounded-[6px]",
+    search: "text-foreground border-border-2/80 bg-background/80 outline-2 outline-transparent focus-within:border-transparent focus-within:outline-2 focus-within:outline-blue-1/80 transition-[outline-color] duration-200 ease-in-out",
   }
 
   const icons = {
