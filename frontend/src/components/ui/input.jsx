@@ -5,7 +5,7 @@ import { cn } from "../../lib/utils"
 function Input({ className, className_2, type, variant, icon, ...props }) {
   const variants = {
     text: "",
-    tab: "border-foreground-1 font-normal hover:border-foreground-1 hover:text-blue-3 bg-transparent text-foreground rounded-[6px]",
+    tab: "border-border-2 bg-hover-2/50 font-normal hover:bg-hover-2 focus:bg-hover-2/90 outline-none text-foreground rounded-[6px]",
     search: "text-foreground border-border-2/80 bg-background/80 outline-2 outline-transparent focus-within:border-transparent focus-within:outline-2 focus-within:outline-blue-1/80 transition-[outline-color] duration-200 ease-in-out",
   }
 
@@ -28,7 +28,7 @@ function Input({ className, className_2, type, variant, icon, ...props }) {
         {...props}
       />
       <span className="absolute left-2 text-icon-2">
-        {icons[icon ? icon : variant]}
+        {typeof icon === "string" ? icons[icon ? icon : variant] : icon}
       </span>
     </div>
   )

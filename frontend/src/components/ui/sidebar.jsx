@@ -16,9 +16,7 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 //   animate: boolean;
 // }
  
-const SidebarContext = createContext(
-  undefined
-);
+const SidebarContext = createContext(undefined);
  
 export const useSidebar = () => {
   const context = useContext(SidebarContext);

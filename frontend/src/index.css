@@ -28,6 +28,7 @@
   --blue-1: #1e75f8;
   --blue-2: #1e75f8;
   --blue-3: #70b8ff;
+  --blue-4: #257cff67;
   /* font */
   --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI (Custom)", Roboto, "Helvetica Neue", "Open Sans (Custom)", system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-family-intel: Inter;
@@ -42,6 +43,7 @@
   --color-background-2: var(--gray-2);
   --color-foreground: var(--white-1);
   --color-foreground-2: var(--white-4);
+  --color-muted-foreground: var(--white-4);
   /* border */
   --color-border-1: var(--gray-12);
   --color-border-2: var(--gray-13);
@@ -51,6 +53,13 @@
   /* input */
   --color-input: var(--gray-n1);
   --color-input-border: var(--gray-5);
+  /* select  */
+  --color-popover: var(--gray-2);
+  --color-popover-border: var(--gray-6);
+  --color-popover-foreground: var(--white-1);
+  --color-accent: var(--blue-4);
+  --color-accent-foreground: var(--white-1);
+  --color-ring: var(--blue-4);
   /* node */
   --color-node: var(--gray-n1);
   --color-node-border: var(--gray-6);

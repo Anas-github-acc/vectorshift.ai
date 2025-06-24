@@ -33,15 +33,15 @@ export default function DeleteEdge({
  
   return (
     <>
-      <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} className='edge'></BaseEdge>
+      <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} className={`edge`}></BaseEdge>
         <EdgeLabelRenderer>
           <div
-            className="button-edge__label"
+            className={`button-edge__label`}
             style={{
               transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             }}
           >
-            <button className="button-edge__button" onClick={onEdgeClick}>
+            <button className={`button-edge__button`} onClick={onEdgeClick}>
               <IconCircleXFilled className="w-4 h-4" />
             </button>
           </div>

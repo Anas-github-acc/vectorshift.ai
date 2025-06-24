@@ -1,8 +1,17 @@
 // inputNode.js
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { BaseNode } from '../components/ui/baseNode';
-import {Input } from '../components/ui/input';
+import {
+  BaseNode,
+  NodeContext,
+  BaseNodePannel,
+} from '../components/ui/baseNode';
+import {
+  NodeTitle,
+  NodeContent,
+  NodeDescription,
+  NodeSubTitle
+} from '../components/ui/node';
 import {
   Select,
   SelectContent,
@@ -11,67 +20,73 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select"  
+} from "../components/ui/select";
 
-export const InputBox = () => {
-  return (
-    <div>
-      <label>
-        Input:
-        <input type="text" />
-      </label>
-    </div>
-  )
-}
+import { HiOutlineQuestionMarkCircle } from "react-icons/hi";
+import { RxText } from "react-icons/rx";
+
+const textIcon = <RxText  className="w-5 h-5 text-green-800 font-[700]" />; 
 
 export const InputNode = ({ id, data, isConnectable }) => {
-  const [input, setInput] = React.useState([
-    // {
-    //   var: data?.inputName || id.replace('-', '_'),
-    //   type: data.inputType || 'Text',
-    //   value: ''
-    // },
-    // {
-    //   var: data?.inputName || id.replace('-', '_'),
-    //   type: data.inputType || 'Text',
-    //   value: ''
-    // }
+  const [ open, setOpen ] = useState(null);
+  const [addNode, setAddNode] = useState([
+    {
+      var: data?.inputName || id.replaceAll('-','_'),
+      type: data.inputType || 'Text',
+      icon: textIcon,
+    },
   ]);
-
+  
   return (
-    <BaseNode
-      title={data?.title || 'Input Node'}
-      addNodeTitle="Add Input"
-    >
-      {input.map((inputItem, index) => (
-        <Input key={index} variant='tab' className='w-full border-2' />
-      ))}
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-value`}
-        style={{ right: -10 }}
-        isConnectable={isConnectable}
-      />
-    </BaseNode>
+    <NodeContext.Provider value={{ open, setOpen, addNode, setAddNode }}>
+      <BaseNode
+        id={id.replaceAll('-','_').slice(0, -2)}
+        title={data?.title || 'Input Node'}
+        addNodeTitle="Add Input"
+        defaultIcon={textIcon}
+      >
+        <Handle
+          type="source"
+          position={Position.Right}
+          id={`${id}`}
+          style={{ right: -10 }}
+          isConnectable={isConnectable}
+        />
+
+        <BaseNodePannel>
+          <NodeTitle>{data?.title || 'Input Node'}</NodeTitle>
+          <NodeDescription>
+            Pass data of different types into your workflow.
+          </NodeDescription>
+          <NodeContent>
+            <div>
+              <NodeSubTitle>Types
+                <HiOutlineQuestionMarkCircle className='w-4 h-4 text-foreground/30' />
+              </NodeSubTitle>
+              <SelectElement />
+            </div>
+          </NodeContent>
+        </BaseNodePannel>
+
+      </BaseNode>
+    </NodeContext.Provider>
   );
 }
-
 
 const SelectElement = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a fruit" />
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="select a type" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          <SelectLabel>Type</SelectLabel>
+          <SelectItem value="text">Text</SelectItem>
+          <SelectItem value="file">File</SelectItem>
+          <SelectItem value="image">image</SelectItem>
+          <SelectItem value="audio">Audio</SelectItem>
+          <SelectItem value="boolean">Boolean</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

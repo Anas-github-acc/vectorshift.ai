@@ -6,12 +6,12 @@ function Node({ className, ...props }) {
   return (
     <div
       data-slot="node"
-        className={cn(
-          "bg-node w-[300px] min-w-[300px] text-foreground/60 font-normal flex flex-col gap-3 rounded-xl py-3 px-3 border-1 border-node-border hover:border-blue-3 inset-shadow-sm transition-colors duration-200",
-          className
-        )}
-        {...props}
-      />
+      className={cn(
+        "relative bg-node w-[300px] min-w-[300px] text-foreground/60 font-normal flex flex-col gap-3 rounded-xl py-3 px-3 border-1 border-node-border hover:border-blue-3 inset-shadow-sm transition-colors duration-200",
+        className
+      )}
+      {...props}
+    />
   )
 }
 
@@ -35,7 +35,17 @@ function NodeTitle({ className, ...props }) {
   return (
     <div
       data-slot="node-title"
-      className={cn("leading-none text-[15px] font-semibold", className)}
+      className={cn("leading-none text-foreground/90 text-[15px] font-semibold", className)}
+      {...props}
+    />
+  )
+}
+
+function NodeSubTitle({ className, ...props }) {
+  return (
+    <div
+      data-slot="node-subtitle"
+      className={cn("flex items-center gap-2 text-foreground/70 text-[13px] font-normal pl-2 py-2", className)}
       {...props}
     />
   )
@@ -43,9 +53,9 @@ function NodeTitle({ className, ...props }) {
 
 function NodeDescription({ className, ...props }) {
   return (
-    <div
+    <p
       data-slot="node-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-foreground-2 text-[0.8em]", className)}
       {...props}
     />
   )
@@ -57,6 +67,18 @@ function NodeContent({ className, ...props }) {
       data-slot="node-content"
       className={cn(
         "flex justify-between flex-col gap-2",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function NodePannel({className, ...props}) {
+  return (
+    <div
+      data-slot="node-pannel"
+      className={cn("absolute top-0 left-[105%] bg-background-2/80 w-[350px] min-w-[350px] text-foreground/80 font-normal flex flex-col gap-3 rounded-xl py-3 px-3 border-none outline-2 outline-blue-400/40 shadow-lg shadow-blue-400/40 inset-shadow-sm transition-[colors, height] duration-200 Z-100",
         className
       )}
       {...props}
@@ -82,5 +104,7 @@ export {
   NodeHeader,
   NodeTitle,
   NodeContent,
+  NodePannel,
   NodeDescription,
+  NodeSubTitle
 }

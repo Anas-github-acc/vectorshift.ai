@@ -112,14 +112,6 @@ export const UI = () => {
           connectionMode={ConnectionMode.Loose}
           connectionLineComponent={ConnectionLine}
         >
-        {/* 
-          <div className='absolute top-30 left-30 z-10 p-2'>
-            <InputNode id="1" data={{
-                inputName: 'Input 1',
-                inputType: 'Text'
-            }}/>
-          </div> */}
-
             <Background className='stroke-grid' size={2} gridSize={gridSize} />
             <Controls position='right-0 bottom-10' />
             {/* <MiniMap className='bg-background! rounded-[12px] text-background/80!'/> */}
@@ -129,7 +121,7 @@ export const UI = () => {
 }
 
 export const PipelineUI = () => (
-  <ReactFlowProvider>
+  <>
     <UI />
-  </ReactFlowProvider>
+  </>
 );
