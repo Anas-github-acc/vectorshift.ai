@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@radix-ui/colors": "latest",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tabler/icons-react": "^3.34.0",
